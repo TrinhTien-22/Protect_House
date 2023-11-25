@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% include "head.html" %}
+    <link rel="stylesheet" href="/static/css/footer.css">
+    <link rel="stylesheet" href="/static/css/admin.css">
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg py-2 navbar-dark bg-dark shadow-sm">
+        <div class="container">
+            <a href="/" class="navbar-brand">
+                <!-- Logo Image -->
+                <img src="{{ url_for('static', filename='img/logo2.png') }}" width="45" alt=""
+                    class="d-inline-block align-middle mr-2">
+                <!-- Logo Text -->
+                <span class="font-weight-bold">Protect House</span>
+            </a>
+            <div>
+
+                <p class=" nameadmin">Trịnh Tiến</p>
+            </div>
+        </div>
+    </nav>
+
+    <div class="content_admin">
+        {%include "/admin/menuadmin.html"%}
+        <section id="option1" class="py-1 bodypage disnone active_session">
+            {%include "/admin/header.html"%}
+            <div class="space_search">
+                <div class="row">
+                    <div class="search ">
+                        <input class="item_search " type="text" placeholder="Search buyer name, buyer email">
+                        <select class="item_search " name="" id="">
+                            <option value="" disabled selected hidden>Position</option>
+                            <option value="">OK</option>
+                            <option value="">NO</option>
+                        </select>
+                        <select class="item_search " name="" id="">
+                            <option value="" disabled selected hidden>Active</option>
+                            <option value="">OK</option>
+                            <option value="">NO</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="search ">
+                        <input class="item_search " type="text" placeholder="Last Transistion">
+                        <button class="item_search  button_search searchButton" id="searchButton">Search</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <!-- <div class="search-results" id="searchResults">
+                    <div class="flex">
+                        <h2 style="margin-left: 20px;">Searching</h2>
+                        <div id="closeButtonSearch">
+                            <i class="fa-solid fa-x"></i>
+                        </div>
+                    </div>
+                    <br>
+                    <form action="" method="post">
+                        <i style="margin-left: 15px;margin-right: -5px;" class="fa-solid fa-magnifying-glass"></i>
+                        <input class="input-search" type="text" id="searchInput" placeholder="Search ...">
+                    </form>
+                    <br>
+                    <ul style="max-width: 100%;" id="searchOutput" class="danhsach">
+
+                    </ul>
+                </div> -->
+                <div class="col-lg-8 offset-lg-2">
+
+                    <br>
+                    <table class="table" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th>Person Id</th>
+                                <th>Avata</th>
+                                <th>Name</th>
+                                <th>Position</th>
+                            </tr>
+                        </thead>
+
+                        <tbody class="membertable">
+                        </tbody>
+
+                    </table>
+
+                </div>
+            </div>
+            <div class="close_confirm hidden">
+                <img src="../static/img/images/close_lg.png" alt="">
+            </div>
+            <div class="hidden" id="confirmdelete">
+                <p class="textcenter">Bạn có chắc muốn <strong>xóa !!!</strong> </p>
+                <br>
+                <div class="textcenter">
+                    <button class="btn btn-danger button_confirm" id="remove">Verify</button>
+                    <button class="btn btn-primary button_confirm" id="cancel">Cancal</button>
+                </div>
+            </div>
+
+        </section>
+
+        <div class="search-results" id="searchResults">
+            <div class="flex">
+                <h2 style="margin-left: 20px;">Searching</h2>
+                <div id="closeButtonSearch">
+                    <i class="fa-solid fa-x"></i>
+                </div>
+            </div>
+            <br>
+            <form action="" method="post">
+                <i style="margin-left: 15px;margin-right: -5px;" class="fa-solid fa-magnifying-glass"></i>
+                <input class="input-search" type="text" id="searchInput" placeholder="Search ...">
+            </form>
+            <br>
+            <ul style="max-width: 100%;" id="searchOutput" class="danhsach">
+            </ul>
+        </div>
+        <div id="informationUser" class="hidden ">
+            <h4>Information User</h4>
+            <div id="closeButton">X</div>
+            <form action="" data-id="" id="Userinformation" method="post" enctype="multipart/form-data">
+                <div class="form-group avatauser" id="avataInformation">
+                    <label for=""></label>
+                </div>
+                <div class="inforuser">
+
+                    <div class="form-group">
+                        <label for=""></label>
+                        <input type="text" name="id" id="numberid" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for=""></label>
+                        <input type="text" name="namemember" id="name">
+                    </div>
+                    <div class="form-group">
+                        <label for=""></label>
+                        <input type="file" name="avataupdate" id="avataupdate">
+                    </div>
+                    <div class="form-group">
+                        <select name="membermember" id="member">
+                            <option value="Grandfather">Grandfather</option>
+                            <option value="Grandma">Grandma</option>
+                            <option value="Father">Father</option>
+                            <option value="Mother">Mother</option>
+                            <option value="Child">Child</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn btn-success button_confirm " id="submitloginForm" type="submit">Save</button>
+
+            </form>
+            <form id="deletemember" method="post" data-id="">
+                <button class="btn btn-danger deletemember button_confirm" type="submit"><i
+                        class="fa-solid fa-trash"></i></button>
+            </form>
+        </div>
+        <section id="option2" class="bodypage disnone ">
+            {%include "/admin/header.html"%}
+            <div class="space_search">
+                <div class="row">
+                    <div class="search ">
+                        <input class="item_search" type="text" placeholder="Search buyer name, buyer email">
+                        <select class="item_search " name="" id="">
+                            <option value="" disabled selected hidden>Position</option>
+                            <option value="">OK</option>
+                            <option value="">NO</option>
+                        </select>
+                        <select class="item_search " name="" id="">
+                            <option value="" disabled selected hidden>Active</option>
+                            <option value="">OK</option>
+                            <option value="">NO</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="search ">
+                        <input class="item_search" type="text" placeholder="Last Transistion">
+                        <button class="item_search button_search searchButton" id="searchButton">Search</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="addmember">
+                <h3>Personnel Data</h3>
+                <hr>
+                <div class="row">
+                    <div class="col-lg-4">
+                    </div>
+                    <div class="col-lg-4">
+                        <a href="/addprsn" type="button" class="btn btn-success btn-lg"><b>Add Personnel</b></a>
+                    </div>
+                    <div class="col-lg-2">
+                    </div>
+                    <!-- <div class="col-lg-4">
+                            <a href="/fr_page" type="button" class="btn btn-info btn-lg"><b>Face Recognition</b></a>
+                        </div> -->
+                </div>
+            </div>
+        </section>
+    </div>
+    {% include "footer.html" %}
+</body>
+
+</html>
+<script src="../static/js/admin.js"></script>

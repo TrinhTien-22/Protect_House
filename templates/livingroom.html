@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% include "head.html" %}
+    <script src="socket.io/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+
+    <link rel="stylesheet" href="/static/css/livingroom.css">
+    <script src="/static/js/highcharts.js"></script>
+    <script src="/static/js/export-data.js"></script>
+    <script src="/static/js/accessibility.js"></script>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg py-2 navbar-dark bg-dark shadow-sm">
+        <div class="container">
+            <a href="/" class="navbar-brand">
+                <!-- Logo Image -->
+                <img src="{{ url_for('static', filename='img/logo2.png') }}" width="45" alt=""
+                    class="d-inline-block align-middle mr-2">
+                <!-- Logo Text -->
+                <span class="font-weight-bold">Protect House</span>
+            </a>
+            <button style="background-color: aliceblue;" class="btn btn-success dark-light">
+                <img style="width: 40px;" id="imgdarklight" src="/static/img/icon/sunny.png" alt="">
+            </button>
+        </div>
+    </nav>
+
+    <!-- <section class="py-1">
+        <div class="row mt-5">
+
+            <div class="col-lg-10 offset-lg-2">
+                <div class="col-md-3 weather temper">
+                    <h1>Nhiệt Độ</h1>
+                    <p class="temperature">Temperature</p>
+                </div>
+                <div class="col-md-3 weather humi">
+                    <h1>Độ Ẩm</h1>
+                    <p class="humidity">Humidity</p>
+                </div>
+                <div class="col-md-3 weather lux">
+                    <h1>Áng Sáng</h1>
+                    <p class="light">Light</p>
+                </div>
+            </div>
+            <form style="margin: 50px auto;" action="/home/livingroom/warning" method="post">
+                <input type="number" name="temperature" id="temperature" placeholder="temperature">
+                <button type="submit" class="btn btn-danger warningsubmit" data-type="temperature">Submit</button>
+            </form>
+            <form style="margin: 50px auto;" action="/home/livingroom/warning" method="post">
+                <input type="number" name="humidity" id="humidity" placeholder="humidity">
+                <button type="submit" class="btn btn-danger warningsubmit" data-type="humidity">Submit</button>
+            </form>
+            <form style="margin: 50px auto;" action="/home/livingroom/warning" method="post">
+                <input type="number" name="light" id="light" placeholder="light">
+                <button type="submit" class="btn btn-danger warningsubmit" data-type="light">Submit</button>
+            </form>
+
+            <a class="btn btn-success bedroom" href="/controlhome">Bedroom</a>
+        </div>
+    </section> -->
+
+    <div class="main-content">
+        <div class="left-block">
+            <div class="element-left ">
+                <div class="element-block temperature">
+                    <img class="element-icon" src="/static/img/icon/temprature.png" alt="">
+                    <div class="element-text">
+                        <p class="right5px">Nhiệt độ: </p>
+                        <p id="currentTemp"></p>
+                        <p>°C</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="element-left ">
+                <div class="element-block humidity">
+                    <img class="element-icon" src="/static/img/icon/drop.png" alt="">
+                    <div class="element-text">
+                        <p class="right5px">Độ ẩm: </p>
+                        <p id="currentHumi"></p>
+                        <p>%</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="element-left ">
+                <div class="element-block light">
+                    <img class="element-icon" src="/static/img/icon/sunny.png" alt="">
+                    <div class="element-text">
+                        <p class="right5px">Ánh sáng: </p>
+                        <p id="currentLight"></p>
+                        <p>Lux</p>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="content_close disnone">
+            <div class="close_infor">
+                <img src="../static/img/images/close_lg.png" alt="">
+            </div>
+            <div class="infor ">
+
+                <h3>Temperature</h3>
+            </div>
+        </div>
+        <div class="right-block">
+            <div class="chart">
+                <figure class="highcharts-figure">
+                    <div id="container"></div>
+                </figure>
+            </div>
+
+            <div class="control">
+                <div class="livingroom-control ">
+                    <div class="flex bell">
+                        <h2 style="color:yellow;margin-right: 10px;">Warning</h2>
+                        <img style="width: 50px;" class="" src="/static/img/icon/bell.png" alt="">
+                    </div>
+                    <div class="warning-element">
+                        <form style="margin: auto;" action="/home/livingroom/warning" method="post">
+                            <img class="element-icon-warning" src="/static/img/icon/temprature.png" alt="">
+                            <input type="number" name="temperature" id="temperature" placeholder="temperature">
+                            <button type="submit" class="btn btn-danger warningsubmit" data-type="temperature"><i
+                                    class="fa-solid fa-arrow-up-from-bracket"></i></button>
+                        </form>
+                        <form style="margin: auto;" action="/home/livingroom/warning" method="post">
+                            <img class="element-icon-warning" src="/static/img/icon/drop.png" alt="">
+                            <input type="number" name="humidity" id="humidity" placeholder="humidity">
+                            <button type="submit" class="btn btn-danger warningsubmit" data-type="humidity"><i
+                                    class="fa-solid fa-arrow-up-from-bracket"></i></button>
+                        </form>
+                        <form style="margin:auto;" action="/home/livingroom/warning" method="post">
+                            <img class="element-icon-warning" src="/static/img/icon/sunny.png" alt="">
+                            <input type="number" name="light" id="light" placeholder="light">
+                            <button type="submit" class="btn btn-danger warningsubmit" data-type="light"><i
+                                    class="fa-solid fa-arrow-up-from-bracket"></i></button>
+                        </form>
+                    </div>
+
+                </div>
+                <div class="bedroom-control">
+
+                    <div class="box-img">
+                        <img class="img-bulb2" src="/static/img/icon/logo.png" alt="">
+                        <a style="margin-top: 150px;margin-left: 40px;" class="btn btn-success bedroom-link"
+                            href="/controlhome">Bedroom</a>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+
+</html>
+<script>
+    $(document).on('click', '.element-block', function () {
+        $('.content_close').removeClass('disnone');
+    });
+    $(document).on('click', '.close_infor', function () {
+        $('.content_close').addClass('disnone');
+    })
+    var socket = io.connect('http://' + '127.0.0.1' + ':' + '5000');
+    // socket.emit('result-data');
+    var chart = Highcharts.chart('container', {
+        chart: {
+            zoomType: 'xy'
+        },
+        title: {
+            text: 'Đồ thị nhiệt độ - độ ẩm - ánh sáng'
+        },
+
+        xAxis: [{
+            categories: [],
+            tickWidth: 1,
+            tickLength: 20
+        }],
+        yAxis: [{ // Primary yAxis
+            labels: {
+                format: '{value}',
+                style: {
+                    color: Highcharts.getOptions().colors[1]
+                }
+            },
+            title: {
+                text: 'Number of Employees',
+                style: {
+                    color: Highcharts.getOptions().colors[1]
+                }
+            },
+        }],
+
+        series: [{
+            name: 'Độ ẩm',
+            // type: 'column',
+            type: 'spline',
+            data: [],
+            tooltip: {
+                valueSuffix: '%'
+            },
+            // color: "yellow"
+        }, {
+            name: 'Nhiệt độ',
+            type: 'spline',
+            data: [],
+            tooltip: {
+                valueSuffix: '°C'
+            }
+        }, {
+            name: 'Ánh sáng',
+            type: 'spline',
+            data: [],
+            tooltip: {
+                valueSuffix: 'lux'
+            }
+        }
+        ],
+    });
+    socket.on("send-data-temp", function (data) {
+        chart.series[0].setData(data);
+    });
+
+    socket.on("send-data-humi", function (data) {
+        chart.series[1].setData(data);
+    });
+
+    socket.on("send-data-light", function (data) {
+        chart.series[2].setData(data);
+    });
+    // Lấy giá trị từ các phần tử HTML
+    // var currentTemp = parseFloat($('#currentTemp').text()); // Chuyển giá trị thành số thập phân
+    // var currentHumi = parseFloat($('#currentHumi').text()); // Chuyển giá trị thành số thập phân
+    // var currentLight = parseFloat($('#currentLight').text()); // Chuyển giá trị thành số thập phân
+
+    // // Cập nhật dữ liệu của biểu đồ
+    // chart.series[0].addPoint([xAxis, currentHumi]); // xValue là thời gian hoặc vị trí dữ liệu của độ ẩm
+    // chart.series[1].addPoint([xAxis, currentTemp]); // xValue là thời gian hoặc vị trí dữ liệu của nhiệt độ
+    // chart.series[2].addPoint([xAxis, currentLight]);
+
+    $('.warningsubmit').on('click', function (e) {
+        e.preventDefault();  // Ngăn chặn gửi form mặc định
+
+        var dataType = $(this).data('type');  // Lấy loại dữ liệu từ data-type
+
+        var value = $('#' + dataType).val();  // Lấy giá trị từ trường input
+
+        $.ajax({
+            url: '/home/livingroom/warning',
+            type: 'POST',
+            data: { dataType: dataType, [dataType]: value },  // Tạo đối tượng dữ liệu với key dựa vào dataType
+            success: function (response) {
+                console.log(response);
+            },
+            error: function (xhr) {
+                console.log(xhr);
+            }
+        });
+    });
+    function updateData() {
+        $.ajax({
+            url: '/home/livingroom/data',  // Route mới để lấy dữ liệu từ máy chủ Flask
+            method: 'GET',
+            success: function (response) {
+                // console.log(response);
+                // Cập nhật dữ liệu trên trang web với dữ liệu mới
+                $('#currentTemp').text(response.Response.Temperature);
+                $('#currentHumi').text(response.Response.Humidity);
+                $('#currentLight').text(response.Response.Light);
+            }
+        });
+    }
+
+    // $(document).ready(function () {
+    //     updateData();
+    //     setInterval(updateData, 10000);  // Cập nhật dữ liệu sau mỗi 5 giây
+    // });
+</script>

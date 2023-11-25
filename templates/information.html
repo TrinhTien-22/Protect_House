@@ -1,0 +1,165 @@
+<script>
+    $(document).on('click', '.js-show-modal1', function (e) {
+        var id = $(this).data('id');
+        // $('#Formlogin').attr('data-id', id);
+        $.ajax({
+            url: "/member/update/" + id,
+            type: 'GET',
+            success: function (respone) {
+                console.log(respone.respone);
+                $('.avataInformation').html(`<img src="/static/img/avata/${respone.respone[3]}" alt="">`);
+                $('.interest').html(respone.respone[2]);
+                $('.namemember').html(respone.respone[1]);
+                $('.memberposible').html(respone.respone[4]);
+            },
+            error: function (xhr) {
+                console.log(xhr);
+            }
+        });
+    });
+</script>
+<div class="wrap-modal1 js-modal1 p-t-60 p-b-20 show-modal1 hidden">
+    <div class="overlay-modal1 js-hide-modal1"></div>
+
+    <div class="container">
+        <div class="bg0 p-t-60 p-b-30 p-lr-15-lg how-pos3-parent">
+            <button class="how-pos3 hov3 trans-04 js-hide-modal1">
+                <img src="/static/img/icon/icon-close.png" alt="CLOSE">
+            </button>
+
+            <div class="row">
+                <div class="col-md-6 col-lg-7 p-b-30">
+                    <div class="p-l-25 p-r-30 p-lr-0-lg">
+                        <div class="wrap-slick3 flex-sb flex-w">
+                            <div class="wrap-slick3-dots">
+                                <ul class="slick3-dots" role="tablist">
+                                    <li class="slick-active avataInformation" role="presentation"><img src="  ">
+                                        <div class="slick3-dot-overlay"></div>
+                                    </li>
+                                    <li role="presentation" class="avataInformation"><img src="  ">
+                                        <div class="slick3-dot-overlay"></div>
+                                    </li>
+                                    <li role="presentation" class="avataInformation"><img src=" ">
+                                        <div class="slick3-dot-overlay"></div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="wrap-slick3-arrows flex-sb-m flex-w"><button
+                                    class="arrow-slick3 prev-slick3 slick-arrow"><i class="fa fa-angle-left"
+                                        aria-hidden="true"></i></button><button
+                                    class="arrow-slick3 next-slick3 slick-arrow"><i class="fa fa-angle-right"
+                                        aria-hidden="true"></i></button></div>
+
+                            <div class="slick3 gallery-lb slick-initialized slick-slider slick-dotted">
+                                <div class="slick-list draggable">
+                                    <div class="slick-track" style="opacity: 1; width: 1539px;">
+                                        <div class="item-slick3 slick-slide slick-current slick-active" data-thumb=""
+                                            data-slick-index="0" aria-hidden="false" tabindex="0" role="tabpanel"
+                                            id="slick-slide10" aria-describedby="slick-slide-control10"
+                                            style="width: 513px; position: relative; left: 0px; top: 0px; z-index: 999; opacity: 1;">
+                                            <div class="wrap-pic-w pos-relative avataInformation">
+                                                <img src="" alt="IMG-PRODUCT">
+
+                                                <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
+                                                    href="" tabindex="0">
+                                                    <i class="fa fa-expand"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="item-slick3 slick-slide" data-thumb="" data-slick-index="1"
+                                            aria-hidden="true" tabindex="-1" role="tabpanel" id="slick-slide11"
+                                            aria-describedby="slick-slide-control11"
+                                            style="width: 513px; position: relative; left: -513px; top: 0px; z-index: 998; opacity: 0; transition: opacity 500ms ease 0s;">
+                                            <div class="wrap-pic-w pos-relative">
+                                                <img src="" alt="IMG-PRODUCT">
+
+                                                <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
+                                                    href="" tabindex="-1">
+                                                    <i class="fa fa-expand"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="item-slick3 slick-slide" data-thumb="" data-slick-index="2"
+                                            aria-hidden="true" tabindex="-1" role="tabpanel" id="slick-slide12"
+                                            aria-describedby="slick-slide-control12"
+                                            style="width: 513px; position: relative; left: -1026px; top: 0px; z-index: 998; opacity: 0; transition: opacity 500ms ease 0s;">
+                                            <div class="wrap-pic-w pos-relative">
+                                                <img src="" alt="IMG-PRODUCT">
+
+                                                <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
+                                                    href="" tabindex="-1">
+                                                    <i class="fa fa-expand"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-5 p-b-30">
+                    <div class="p-r-50 p-t-5 p-lr-0-lg">
+                        <h4 class="mtext-105 cl2 js-name-detail p-b-14 namemember">
+
+                        </h4>
+
+                        <span class="mtext-106 cl2 memberposible">
+
+                        </span>
+
+                        <p class="stext-102 cl3 p-t-23 interest">
+                            Sở thích
+                        </p>
+
+                        <!--  -->
+                        <div class="p-t-33">
+
+                            <div class="flex-w flex-r-m p-b-10">
+                                <div class="size-204 flex-w flex-m respon6-next">
+
+
+                                    <button
+                                        class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
+                                        Promotion
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--  -->
+                        <div class="flex-w flex-m p-l-100 p-t-40 respon7">
+                            <div class="flex-m bor9 p-r-10 m-r-11">
+                                <a href="#"
+                                    class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100"
+                                    data-tooltip="Add to Wishlist">
+                                    <i class="zmdi zmdi-favorite"></i>
+                                </a>
+                            </div>
+
+                            <a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100"
+                                data-tooltip="Facebook">
+                                <i class="fa fa-facebook"></i>
+                            </a>
+
+                            <a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100"
+                                data-tooltip="Twitter">
+                                <i class="fa fa-twitter"></i>
+                            </a>
+
+                            <a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100"
+                                data-tooltip="Google Plus">
+                                <i class="fa fa-google-plus"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

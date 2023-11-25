@@ -1,0 +1,222 @@
+.bg-nav{
+    background: #ff0084;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #33001b, #ff0084);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #33001b, #ff0084); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+.bodypage{
+   
+   margin-bottom: 200px;
+}
+.mt-100{
+    margin-top:100px;
+}
+.weather{
+    display: inline-block;
+    border-radius: 10px;
+    background-color: greenyellow;
+    text-align: center;
+}
+.temper{
+    margin-left: -30px;
+}
+.humi{
+    margin: 20px 50px;
+}
+.lux{
+    margin-right: 50px;
+}
+.bedroom{
+    margin:  50px auto;
+}
+.hidden {
+    display: none;
+}
+.rowbody img{
+    max-width: 112%;
+    margin-left: -15px;
+}
+.rowbody{
+    border: 1px solid #537e85;
+    
+    margin: 50px 30px;
+}
+.container-one{
+    display:flex;
+    margin-left: 110px;
+}
+.block1-link {
+    -webkit-transform: translateY(250%);
+    -moz-transform: translateY(250%);
+    -ms-transform: translateY(250%);
+    -o-transform: translateY(250%);
+    transform: translateY(250%);
+  }
+  
+  /*---------------------------------------------*/
+  .block1-txt:hover {
+    background-color: rgba(103,117,214,0.8);
+  }
+  
+  .block1-txt:hover .block1-txt-child2 {
+    -webkit-transform: scaleX(1);
+    -moz-transform: scaleX(1);
+    -ms-transform: scaleX(1);
+    -o-transform: scaleX(1);
+    transform: scaleX(1);
+  }
+  .block1-txt:hover .block1-link {
+    -webkit-transform: translateY(0%);
+    -moz-transform: translateY(0%);
+    -ms-transform: translateY(0%);
+    -o-transform: translateY(0%);
+    transform: translateY(0%);
+  }
+  .block1-txt-child2 {
+    border-bottom: 2px solid #fff;
+    overflow: hidden;
+    -webkit-transform: scaleX(0);
+    -moz-transform: scaleX(0);
+    -ms-transform: scaleX(0);
+    -o-transform: scaleX(0);
+    transform: scaleX(0);
+  }
+  .trans-09 {
+	-webkit-transition: all 0.9s;
+    -o-transition: all 0.9s;
+    -moz-transition: all 0.9s;
+    transition: all 0.9s;
+}
+.overlay {
+    background-color: rgba(0,0,0,0.6); /* Màu trắng mờ với độ mờ 70% */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2; /* Đảm bảo nó nằm trên cùng */
+}
+.no-overlay {
+    background-color: #fff !important; /* Loại bỏ màu nền mờ */
+}
+/* Thiết lập kiểu của form nổi */
+
+#informationUser {
+    position: fixed;
+    top: 45%;
+    left: 40%;
+    width: 600px;
+    height: 400px;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    z-index: 3;
+}
+#closeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    
+}
+
+.inlineblock{
+    display: inline-block;
+}
+.avatauser{
+    width: 180px;
+    position: absolute;
+    top: 55px;
+    left: 60px;
+   
+}
+.avatauser img {
+    max-width: 100%; /* Đảm bảo hình ảnh không vượt quá kích thước của thẻ div */
+    height: auto; /* Giữ tỷ lệ khung hình khi thay đổi kích thước */
+    border-radius: 30px;
+}
+.inforuser{
+    position: absolute;
+    top: 70px;
+    left: 300px;
+}
+
+.flex{
+    display: flex;
+}
+.search-results {
+    display: none;
+    position: absolute;
+    right: -350px; /* Bắt đầu ngoài màn hình bên phải */
+    top: 0px;
+    height: 100%;
+    background-color: white;
+    padding: 10px;
+    width: 405px;
+    z-index: 3;
+}
+#closeButtonSearch{
+   margin-left: 180px;
+   margin-top: 10px;
+}
+#closeButtonSearch:hover{
+    color: #eb7c3c;
+}
+.input-search{
+    margin-left: 20px;
+    width: 300px;
+    height: 40px;
+}
+.flex-w{
+    display: flex;
+    margin-top: 10px;
+}
+.textcenter{
+    text-align: center;
+    
+}
+.flex-con{
+    margin: 10px;
+   
+}
+.danhsach li{
+    border: 1px solid #000; /* Đường bao quanh mỗi thẻ li */
+    padding: 10px; /* Khoảng cách bên trong thẻ li */
+    margin: 5px 10px;
+    margin-left: -20px;
+    border-radius: 5px;
+}
+.slideshow-container {
+    position: relative;
+    /* max-width: 800px; */
+    width: 100%;
+    margin: auto;
+}
+
+.slide {
+    display: none;
+}
+
+.slide img {
+    width: 100%;
+    height: 600px;
+}
+
+.prev, .next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 16px;
+    cursor: pointer;
+}
+
+.prev {
+    left: 0;
+}
+
+.next {
+    right: 0;
+}

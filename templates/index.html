@@ -8,7 +8,12 @@
     <link rel="stylesheet" href="/static/css/util.css">
     <link rel="stylesheet" href="/static/css/main.css">
     <link rel="stylesheet" href="/static/css/index.css">
-    <script src="/static/js/mainindex.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js"></script>
+
+
+    <!-- <script src="../animation/vendor/isotope/isotope.pkgd.min.js"></script> -->
+    <!-- <script src="/static/js/mainindex.js"></script> -->
 
 </head>
 
@@ -175,18 +180,25 @@
 
             <div class="flex-w flex-sb-m p-b-52">
                 <div class="flex-w flex-l-m filter-tope-group m-tb-10">
-                    <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
+                    <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1 " data-filter="*">
                         All Member
                     </button>
 
-                    <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".women">
-                        IT
+                    <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 " data-filter=".Backend">
+                        Backend
                     </button>
 
-                    <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".men">
-                        Human Resoure
+                    <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 " data-filter=".Frontend">
+                        Frontend
                     </button>
 
+                    <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 " data-filter=".Designer">
+                        Designer
+                    </button>
+
+                    <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 " data-filter=".HR">
+                        HR
+                    </button>
                 </div>
 
                 <div class="flex-w flex-c-m m-tb-10">
@@ -412,7 +424,7 @@
         </div>
 
         <div class="content_user">
-            <div class="row isotope-grid memberover inline_block">
+            <div class="row isotope-grid memberover inline_block" style="display: flex;">
 
                 <!-- CONTEN MEMBER -->
 

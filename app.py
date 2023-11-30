@@ -67,6 +67,7 @@ def generate_dataset(nbr):
  
     mycursor.execute("select ifnull(max(img_id), 0) from img_dataset")
     row = mycursor.fetchone()
+    
     lastid = row[0]
  
     img_id = lastid
@@ -88,7 +89,7 @@ def generate_dataset(nbr):
             mycursor.execute("""INSERT INTO `img_dataset` (`img_id`, `img_person`) VALUES
                                 ('{}', '{}')""".format(img_id, nbr))
             mydb.commit()
- 
+            
             frame = cv2.imencode('.jpg', face)[1].tobytes()
             yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
  
@@ -170,6 +171,7 @@ def face_recognition():  # generate frame by frame from camera
                                  "  left join prs_mstr b on a.img_person = b.prs_nbr "
                                  " where img_id = " + str(id))
                 row = mycursor.fetchone()
+                
                 pnbr = row[0]
                 pname = row[1]
                 pskill = row[2]
@@ -183,7 +185,7 @@ def face_recognition():  # generate frame by frame from camera
  
                     mycursor.execute("insert into accs_hist (accs_date, accs_prsn) values('"+str(date.today())+"', '" + pnbr + "')")
                     mydb.commit()
- 
+                    
                     cv2.putText(img, pname + ' | ' + pskill, (x - 10, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (153, 255, 255), 2, cv2.LINE_AA)
                     time.sleep(1)
  
@@ -257,7 +259,7 @@ def login():
     username = request.form.get('username') 
     mycursor.execute("SELECT prs_name FROM prs_mstr WHERE prs_name = %s", (username,))
     user = mycursor.fetchone()
-
+    
     if user:
         security = True
         return redirect(url_for('livingroom'))
@@ -269,6 +271,7 @@ def login():
 def memberupdate(id): 
     mycursor.execute("SELECT * FROM prs_mstr WHERE prs_nbr = %s", (id,))
     data = mycursor.fetchone()
+    
     return jsonify({'respone' : data})
 @app.route('/member/update/finish/<int:id>', methods=['POST'])
 def memberupdatefinish(id):
@@ -280,7 +283,7 @@ def memberupdatefinish(id):
     if prsavata:
         mycursor.execute("SELECT prs_avata FROM prs_mstr WHERE prs_nbr = %s", (id,))
         oldimgavata = mycursor.fetchone()[0]
-
+        
         upload_folder = r'C:\Users\Admin\Documents\live_face_recognition\static\img\avata'
         file_path = os.path.join(upload_folder, oldimgavata)
 
@@ -296,7 +299,7 @@ def memberupdatefinish(id):
         values = (prsname, prsskill, prsavata.filename, id)
         mycursor.execute(sql, values)
         mydb.commit()
-
+        
         response_data = {"prsname": prsname, "prsskill": prsskill, "prsavata": prsavata.filename}
         return jsonify(response_data)
     else:
@@ -304,7 +307,7 @@ def memberupdatefinish(id):
         values = (prsname, prsskill, id)
         mycursor.execute(sql, values)
         mydb.commit()
-
+        
         response_data = {"prsname": prsname, "prsskill": prsskill}
         return jsonify(response_data)
 
@@ -315,8 +318,9 @@ admin = False
 def adminlogin():
     email= request.form.get('emailadmin')
     password = request.form.get('passwordadmin')
-    mycursor.execute(" select * from admin where id = 1" )
+    mycursor.execute(" select * from admin where id = %s" , (1,) )
     data = mycursor.fetchone()
+    
     global admin 
     if email == data[1] and password == data[2] : 
         admin = True
@@ -337,6 +341,7 @@ def delete_user_images(user_id):
 def deletemember(id):
     mycursor.execute('select prs_avata from prs_mstr where prs_nbr = %s' , (id,))
     imgavata = mycursor.fetchone()[0]
+    
     upload_folder = r'C:\Users\Admin\Documents\live_face_recognition\static\img\avata'
     
     file_path = os.path.join(upload_folder, imgavata)
@@ -347,6 +352,7 @@ def deletemember(id):
     mycursor.execute('delete from prs_mstr where prs_nbr=%s' , (id,))
     mycursor.execute('DELETE FROM img_dataset WHERE img_person = %s' , (id,))
     mydb.commit()
+    
     delete_user_images(id)
     return jsonify("ok")
 
@@ -363,7 +369,7 @@ def searching():
     keyword = request.form.get('keyword')
     mycursor.execute('select * from prs_mstr where prs_name like %s' , ('%' + keyword + '%',))
     data = mycursor.fetchall()
-
+    
     return jsonify(data)
 
 
@@ -381,6 +387,7 @@ def home():
 def memberdata():
     mycursor.execute("select * from prs_mstr")
     data = mycursor.fetchall()
+    
     return jsonify({'response' : data})
 
 #===========================================ADD Person===================================================
@@ -388,6 +395,7 @@ def memberdata():
 def addprsn():
     mycursor.execute("select ifnull(max(prs_nbr) + 1, 101) from prs_mstr")
     row = mycursor.fetchone()
+    
     nbr = row[0]
     # print(int(nbr))
  
@@ -409,7 +417,7 @@ def addprsn_submit():
     mycursor.execute("""INSERT INTO `prs_mstr` (`prs_nbr`, `prs_name`, `prs_skill` ,`interest`, `prs_avata`) VALUES
                     ('{}', '{}', '{}' ,'{}' , '{}')""".format(prsnbr, prsname, prsskill ,prsinterest,prsavata.filename))
     mydb.commit()
- 
+    
     # return redirect(url_for('home'))
     return redirect(url_for('vfdataset_page', prs=prsnbr))
  
@@ -438,7 +446,7 @@ def fr_page():
                      " where a.accs_date = curdate() "
                      " order by 1 desc")
     data = mycursor.fetchall()
- 
+    
     return render_template('fr_page.html', data=data)
  
  
@@ -456,6 +464,7 @@ def countTodayScan():
                      "  from accs_hist "
                      " where accs_date = curdate() ")
     row = mycursor.fetchone()
+    
     rowcount = row[0]
  
     return jsonify({'rowcount': rowcount})
@@ -478,7 +487,7 @@ def loadData():
                      " order by 1 desc"
                      " limit 1")
     data = mycursor.fetchone()
- 
+    
     return jsonify(response = data)
 
 
@@ -488,7 +497,7 @@ current_value = 0
 test = False
 def warningmqtt():
     print("Sending warning message...")
-    # Sử dụng .get() để xác định nếu có khóa "Light"
+    
     mqtt_client.publish(topic, "warning")
     print(f'Publish Message: {"warning"}') 
 
@@ -496,13 +505,13 @@ def warningmqtt():
 def warning():
     global current_value
     global test
-    data_type = request.form.get('dataType')  # Lấy loại dữ liệu từ AJAX request
-    value = request.form.get(data_type)  # Lấy giá trị dữ liệu từ AJAX request
+    data_type = request.form.get('dataType') 
+    value = request.form.get(data_type) 
 
     update_query = "UPDATE warning SET {} = %s WHERE id = 1".format(data_type)
     mycursor.execute(update_query, (value,))
     mydb.commit()
-
+    
     data = data_from_arduino
     
     if value != current_value:
@@ -512,28 +521,41 @@ def warning():
     while test:
         newvalue = int(value)
         if data.get("Light", 0) > newvalue : 
-            # Tạo và khởi động luồng sau 10 giây
+            
             print(f'{value}')
             warningmqtt()
-            time.sleep(10)  # Đợi cho đến khi luồng kết thúc
+            time.sleep(10)  
         else:
             break
         if data.get("Temperature", 0) > newvalue : 
-            # Tạo và khởi động luồng sau 10 giây
+           
             print(f'{value}')
             warningmqtt()
-            time.sleep(10)  # Đợi cho đến khi luồng kết thúc
+            time.sleep(10)  
         else:
             break
         if data.get("Humidity", 0) > newvalue : 
-            # Tạo và khởi động luồng sau 10 giây
+            
             print(f'{value}')
             warningmqtt()
-            time.sleep(10)  # Đợi cho đến khi luồng kết thúc
+            time.sleep(10)  
         else:
             break
     test = False
     return Response("ok")
+
+@app.route('/home/livingroom/getinforwarning', methods=['GET'])
+def getinforwarning():
+    mydb = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        passwd="",
+        database="flask_db"
+    )
+    mycursor = mydb.cursor()
+    mycursor.execute('select * from warning where id = 1')
+    data = mycursor.fetchone()
+    return jsonify(data)
 
 @app.route('/home/livingroom')
 def livingroom():
@@ -606,6 +628,13 @@ mqtt_client.on_message = on_message
 
 
 def hand_tracking():
+    mydb = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        passwd="",
+        database="flask_db"
+    )
+    mycursor = mydb.cursor()
     cap = cv2.VideoCapture(0)
 
     detector = HandDetector(detectionCon=1, maxHands=1)
@@ -619,7 +648,7 @@ def hand_tracking():
     blue = (255,0,0)
     green = (0,255,0)
     purple = (255,0,255)
-
+    lastChangeTime = time.time()
     color = [red, yellow, blue, green, purple]
 
     # broker = "192.168.0.109"
@@ -629,7 +658,7 @@ def hand_tracking():
 
     while cap.isOpened():
         success, img = cap.read()
-        img - detector.findHands(img)
+        img = detector.findHands(img)
         lmList, bbox = detector.findPosition(img, draw=False)
 
         if lmList:
@@ -661,10 +690,15 @@ def hand_tracking():
 
             strVal = str(fingerVal[0])+str(fingerVal[1])+str(fingerVal[2])+str(fingerVal[3])+str(fingerVal[4])
 
-            if lastData != strVal:
+            if lastData != strVal and time.time() - lastChangeTime >= 3:
+                if strVal == '11111' or  strVal == '00000' or strVal=='01110' or strVal=='01100' or strVal=='01000' or strVal =='10001':
+                    mycursor.execute('INSERT INTO activity (action) VALUES (%s)', (strVal,))
+                    mydb.commit()
+                    
                 mqtt_client.publish(topic, strVal)
                 print(f'Publish Message: {strVal}')
                 lastData = strVal
+                lastChangeTime = time.time()
 
         frame = cv2.imencode('.jpg', img)[1].tobytes()
         yield (b'--frame\r\n'
@@ -681,128 +715,25 @@ def hand_tracking():
     cap.set(4, hCam)
     # video.release() 
     cv2.destroyAllWindows()
-    # cap = cv2.VideoCapture(0)
-    # #Set size screen
-    # x_max, y_max = 1280, 720
-    # cap.set(3, x_max)
-    # cap.set(4, y_max)
-
-    # if not cap.isOpened():
-    #     print("Camera couldn't Access")
-    #     exit()
-
-    # fpsReader = FPS()
-    # fps = fpsReader.update()
-
-    # # detector  = HandDetector(detectionCon=0.7)
-    # detector  = HandDetector(detectionCon=1)
-    # pinR, pinY, pinG = 2, 3, 4
-    # port = 'COM3' #Select your COM
-    # board = pyfirmata.Arduino(port)
-
-    # counter_R, counter_Y, counter_G = 0, 0, 0
-    # R_on, Y_on, G_on = False, False, False
-    # R_val ,Y_val , G_val = 0 , 0 , 0
-    # while True:
-    #     success, img = cap.read()
-    #     img = cv2.flip(img, 1)
-    #     img = detector.findHands(img)
-    #     fps, img = fpsReader.update(img)
-    #     lmList, bboxInfo = detector.findPosition(img)
-
-    #     if lmList :
-    #         x, y = 100, 100
-    #         w, h = 225, 225
-    #         X, Y = 120, 190
-
-    #         fx, fy = lmList[8][0], lmList[8][1] #index fingertip
-    #         posFinger = [fx, fy]
-    #         cv2.circle(img, (fx, fy), 15, (255, 0, 255), cv2.FILLED) #draw circle on index fingertip
-    #         cv2.putText(img, str(posFinger), (fx+10, fy-10), cv2.FONT_HERSHEY_PLAIN, 2, (255, 255, 0), 3)
-    #         # cv2.line(img, (0, fy), (x_max, fy), (255,255,0), 2) # x line
-    #         # cv2.line(img, (fx, y_max), (fx, 0), (255, 255, 0), 2)# y line
-
-
-    #         if x < fx < x + w - 95 and y < fy < y + h - 95:
-    #             counter_R += 1
-    #             cv2.rectangle(img, (x, y), (w, h), (255, 255, 0), cv2.FILLED)
-    #             if counter_R == 1:
-    #                 R_on = not R_on
-    #         else :
-    #             counter_R = 0
-    #             if R_on:
-    #                 R_val = 1
-    #                 cv2.rectangle(img, (x, y), (w, h), (0, 0, 255), cv2.FILLED)
-    #                 cv2.putText(img, "ON", (X, Y), cv2.FONT_HERSHEY_PLAIN,
-    #                             4, (255, 255, 255), 5)
-    #             else:
-    #                 R_val = 0
-    #                 cv2.rectangle(img, (x, y), (w, h), (150, 150, 150), cv2.FILLED)
-    #                 cv2.putText(img, "OFF", (X-15, Y), cv2.FONT_HERSHEY_PLAIN,
-    #                             4, (0, 0, 255), 5)
-
-    #         if x + 250 < fx < x + 155 + w and y < fy < y + h - 95: #155 = 250 - 95
-    #             counter_Y += 1
-    #             cv2.rectangle(img, (x + 250, y), (w + 250, h), (255, 255, 0), cv2.FILLED)
-    #             if counter_Y == 1:
-    #                 Y_on = not Y_on
-    #         else:
-    #             counter_Y = 0
-    #             if Y_on:
-    #                 Y_val = 1
-    #                 cv2.rectangle(img, (x+250, y), (w+250, h), (0, 255, 255), cv2.FILLED)
-    #                 cv2.putText(img, "ON", (X+250, Y), cv2.FONT_HERSHEY_PLAIN,
-    #                             4, (255, 255, 255), 5)
-    #             else:
-    #                 Y_val = 0
-    #                 cv2.rectangle(img, (x + 250, y), (w + 250, h), (150, 150, 150), cv2.FILLED)
-    #                 cv2.putText(img, "OFF", (X-15 + 250, Y), cv2.FONT_HERSHEY_PLAIN,
-    #                             4, (0, 255, 255), 5)
-
-    #         if x + 500 < fx < x + 405 + w and y < fy < y + h - 95: #500 - 95 = 405
-    #             counter_G += 1
-    #             cv2.rectangle(img, (x + 500, y), (w + 500, h), (255, 255, 0), cv2.FILLED)
-    #             if counter_G == 1:
-    #                 G_on = not G_on
-
-    #         else:
-    #             counter_G = 0
-    #             if G_on:
-    #                 G_val = 1
-    #                 cv2.rectangle(img, (x + 500, y), (w + 500, h), (0, 255, 0), cv2.FILLED)
-    #                 cv2.putText(img, "ON", (X + 500, Y), cv2.FONT_HERSHEY_PLAIN,
-    #                             4, (255, 255, 255), 5)
-    #             else:
-    #                 G_val = 0
-    #                 cv2.rectangle(img, (x + 500, y), (w + 500, h), (150, 150, 150), cv2.FILLED)
-    #                 cv2.putText(img, "OFF", (X-15 + 500, Y), cv2.FONT_HERSHEY_PLAIN,
-    #                             4, (0, 255, 0), 5)
-
-    #         board.digital[pinR].write(R_val)
-    #         board.digital[pinY].write(Y_val)
-    #         board.digital[pinG].write(G_val)
-    #     frame = cv2.imencode('.jpg', img)[1].tobytes()
-    #     yield (b'--frame\r\n'
-    #         b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
-        
-    #     cv2.imshow("Image", img)
-    #         # cv2.imshow("Frame",image)
-    #     k=cv2.waitKey(1)
-    #     if k==ord('q'):
-    #         break
-    # wCam, hCam = 400, 400
-    # cap = cv2.VideoCapture(0)
-    # cap.set(3, wCam)
-    # cap.set(4, hCam)
-    # video.release() 
-    # cv2.destroyAllWindows()
+    
 
 @app.route('/hand_track')
 def hand_track():
     global camera_running
     camera_running =False
     return Response(hand_tracking(), mimetype='multipart/x-mixed-replace; boundary=frame')
-
+@app.route('/controlhome/get')
+def controlget():
+    mydb = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        passwd="",
+        database="flask_db"
+    )
+    mycursor = mydb.cursor()
+    mycursor.execute('select * from activity order by create_at desc limit 5')
+    data = mycursor.fetchall()
+    return jsonify(data)
 @app.route('/controlhome')
 def controlhome():
     global security

@@ -5,7 +5,7 @@
     width: 100%;
 }
 .content_user{
-    display: inline-block;
+    display:flex;
 }
 .loadmore{
     width: 100%;

@@ -10,6 +10,7 @@
     <script src="/static/js/highcharts.js"></script>
     <script src="/static/js/export-data.js"></script>
     <script src="/static/js/accessibility.js"></script>
+
 </head>
 
 <body>
@@ -62,227 +63,160 @@
             <a class="btn btn-success bedroom" href="/controlhome">Bedroom</a>
         </div>
     </section> -->
+    <div class="content_living">
+        <div class="hardward">
+            <div class="headhard">
+                <h4>Living Room</h4>
+                <div class="line"></div>
+                <div class="iconhead">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                <div class="line"></div>
+                <div class="iconhead">
+                    <i class="fa-solid fa-wrench"></i>
+                </div>
+                <div class="line"></div>
+                <div class="iconhead">
+                    <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                </div>
 
-    <div class="main-content">
-        <div class="left-block">
-            <div class="element-left ">
-                <div class="element-block temperature">
-                    <img class="element-icon" src="/static/img/icon/temprature.png" alt="">
-                    <div class="element-text">
-                        <p class="right5px">Nhiệt độ: </p>
+            </div>
+            <div class="line_infor"></div>
+            <div class="infordht11" onclick="displayValues(temp ,'temp')">
+                <div class="dht11">
+                    <p class="text_infor">Temperature </p>
+                    <div class="main_infor">
                         <p id="currentTemp"></p>
+                        <p>°C</p>
+                    </div>
+                    <div class="text_warning">
+                        <p><strong>Warning : </strong></p>
+                        <p id="warning_temperature"></p>
                         <p>°C</p>
                     </div>
                 </div>
             </div>
-
-            <div class="element-left ">
-                <div class="element-block humidity">
-                    <img class="element-icon" src="/static/img/icon/drop.png" alt="">
-                    <div class="element-text">
-                        <p class="right5px">Độ ẩm: </p>
+            <div class="line_infor"></div>
+            <div class="infordht11" onclick="displayValues(humi , 'humi')">
+                <div class="dht11">
+                    <p class="text_infor">Humidity </p>
+                    <div class="main_infor">
                         <p id="currentHumi"></p>
+                        <p>%</p>
+                    </div>
+                    <div class="text_warning">
+                        <p><strong>Warning : </strong></p>
+                        <p id="warning_humidity"></p>
                         <p>%</p>
                     </div>
                 </div>
             </div>
+            <div class="line_infor"></div>
+            <div class="infordht11" onclick="displayValues(light , 'light')">
+                <div class="dht11">
+                    <p class="text_infor">Light </p>
+                    <div class="main_infor">
 
-            <div class="element-left ">
-                <div class="element-block light">
-                    <img class="element-icon" src="/static/img/icon/sunny.png" alt="">
-                    <div class="element-text">
-                        <p class="right5px">Ánh sáng: </p>
                         <p id="currentLight"></p>
+                        <p>Lux</p>
+                    </div>
+                    <div class="text_warning">
+                        <p><strong>Warning : </strong></p>
+                        <p id="warning_light"></p>
                         <p>Lux</p>
                     </div>
                 </div>
             </div>
-
-
         </div>
+        <div class="chartdht11">
+            <figure class="highcharts-figure">
+                <div id="container"></div>
+            </figure>
+        </div>
+        <div class="line_char"></div>
         <div class="content_close disnone">
             <div class="close_infor">
                 <img src="../static/img/images/close_lg.png" alt="">
             </div>
-            <div class="infor ">
 
-                <h3>Temperature</h3>
+            <div class="infor ">
+                <p class="text_notselect disnone"> <strong>Bạn chưa chọn mục nào !</strong></p>
+                <form class="form_humidity disnone" style="margin: auto;" action="/home/livingroom/warning"
+                    method="post">
+                    <img class="element-icon-warning" src="/static/img/icon/drop.png" alt="">
+                    <input type="number" name="humidity" id="humidity" placeholder="humidity">
+                    <button type="submit" class="btn btn-danger warningsubmit" data-type="humidity"><i
+                            class="fa-solid fa-arrow-up-from-bracket"></i></button>
+                </form>
+                <form class="form_light disnone " style="margin:auto;" action="/home/livingroom/warning" method="post">
+                    <img class="element-icon-warning" src="/static/img/icon/sunny.png" alt="">
+                    <input type="number" name="light" id="light" placeholder="light">
+                    <button type="submit" class="btn btn-danger warningsubmit" data-type="light"><i
+                            class="fa-solid fa-arrow-up-from-bracket"></i></button>
+                </form>
+                <form class="form_temperature disnone" style="margin: auto;" action="/home/livingroom/warning"
+                    method="post">
+                    <img class="element-icon-warning" src="/static/img/icon/temprature.png" alt="">
+                    <input type="number" name="temperature" id="temperature" placeholder="temperature">
+                    <button type="submit" class="btn btn-danger warningsubmit" data-type="temperature"><i
+                            class="fa-solid fa-arrow-up-from-bracket"></i></button>
+                </form>
             </div>
         </div>
-        <div class="right-block">
-            <div class="chart">
-                <figure class="highcharts-figure">
-                    <div id="container"></div>
-                </figure>
-            </div>
-
-            <div class="control">
-                <div class="livingroom-control ">
-                    <div class="flex bell">
-                        <h2 style="color:yellow;margin-right: 10px;">Warning</h2>
-                        <img style="width: 50px;" class="" src="/static/img/icon/bell.png" alt="">
-                    </div>
-                    <div class="warning-element">
-                        <form style="margin: auto;" action="/home/livingroom/warning" method="post">
-                            <img class="element-icon-warning" src="/static/img/icon/temprature.png" alt="">
-                            <input type="number" name="temperature" id="temperature" placeholder="temperature">
-                            <button type="submit" class="btn btn-danger warningsubmit" data-type="temperature"><i
-                                    class="fa-solid fa-arrow-up-from-bracket"></i></button>
-                        </form>
-                        <form style="margin: auto;" action="/home/livingroom/warning" method="post">
-                            <img class="element-icon-warning" src="/static/img/icon/drop.png" alt="">
-                            <input type="number" name="humidity" id="humidity" placeholder="humidity">
-                            <button type="submit" class="btn btn-danger warningsubmit" data-type="humidity"><i
-                                    class="fa-solid fa-arrow-up-from-bracket"></i></button>
-                        </form>
-                        <form style="margin:auto;" action="/home/livingroom/warning" method="post">
-                            <img class="element-icon-warning" src="/static/img/icon/sunny.png" alt="">
-                            <input type="number" name="light" id="light" placeholder="light">
-                            <button type="submit" class="btn btn-danger warningsubmit" data-type="light"><i
-                                    class="fa-solid fa-arrow-up-from-bracket"></i></button>
-                        </form>
+        <div class="control_room">
+            <div class="note_infor">
+                <div class="headhard2">
+                    <h4 class="text_dht11">Living Room</h4>
+                    <div class="icon">
+                        <div class="line"></div>
+                        <div class="iconhead">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </div>
+                        <div class="line"></div>
+                        <div class="iconhead">
+                            <i class="fa-solid fa-wrench"></i>
+                        </div>
+                        <div class="line"></div>
+                        <div class="iconhead">
+                            <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                        </div>
                     </div>
 
                 </div>
-                <div class="bedroom-control">
-
-                    <div class="box-img">
-                        <img class="img-bulb2" src="/static/img/icon/logo.png" alt="">
-                        <a style="margin-top: 150px;margin-left: 40px;" class="btn btn-success bedroom-link"
-                            href="/controlhome">Bedroom</a>
+                <div class="line_infor"></div>
+                <div id="displayValues">
+                    <div class="display_array">
+                        <p>1</p>
+                        <p>2</p>
+                        <p>3</p>
+                        <p>4</p>
+                        <p>5</p>
                     </div>
-
-
-
+                    <div class="icon_arrow">
+                        <div class="arrow_up ">
+                            <i class="fa-solid fa-arrow-up fa-bounce fa-2xl"></i>
+                        </div>
+                        <div class="arrow_down hidden">
+                            <i class="fa-solid fa-arrow-down fa-bounce fa-2xl"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="content_warning">
+                    <button class=" button_warning" data-warning=""><i
+                            class="fa-regular fa-bell fa-shake fa-xl"></i></button>
+                </div>
+            </div>
+            <div class="line_infor"></div>
+            <div class="control_room2">
+                <div class="box-img">
+                    <img class="img-bulb2" src="/static/img/icon/logo.png" alt="">
+                    <a class="btn btn-success bedroom-link" href="/controlhome">Bedroom</a>
                 </div>
             </div>
         </div>
     </div>
 
-
-
 </body>
 
 </html>
-<script>
-    $(document).on('click', '.element-block', function () {
-        $('.content_close').removeClass('disnone');
-    });
-    $(document).on('click', '.close_infor', function () {
-        $('.content_close').addClass('disnone');
-    })
-    var socket = io.connect('http://' + '127.0.0.1' + ':' + '5000');
-    // socket.emit('result-data');
-    var chart = Highcharts.chart('container', {
-        chart: {
-            zoomType: 'xy'
-        },
-        title: {
-            text: 'Đồ thị nhiệt độ - độ ẩm - ánh sáng'
-        },
-
-        xAxis: [{
-            categories: [],
-            tickWidth: 1,
-            tickLength: 20
-        }],
-        yAxis: [{ // Primary yAxis
-            labels: {
-                format: '{value}',
-                style: {
-                    color: Highcharts.getOptions().colors[1]
-                }
-            },
-            title: {
-                text: 'Number of Employees',
-                style: {
-                    color: Highcharts.getOptions().colors[1]
-                }
-            },
-        }],
-
-        series: [{
-            name: 'Độ ẩm',
-            // type: 'column',
-            type: 'spline',
-            data: [],
-            tooltip: {
-                valueSuffix: '%'
-            },
-            // color: "yellow"
-        }, {
-            name: 'Nhiệt độ',
-            type: 'spline',
-            data: [],
-            tooltip: {
-                valueSuffix: '°C'
-            }
-        }, {
-            name: 'Ánh sáng',
-            type: 'spline',
-            data: [],
-            tooltip: {
-                valueSuffix: 'lux'
-            }
-        }
-        ],
-    });
-    socket.on("send-data-temp", function (data) {
-        chart.series[0].setData(data);
-    });
-
-    socket.on("send-data-humi", function (data) {
-        chart.series[1].setData(data);
-    });
-
-    socket.on("send-data-light", function (data) {
-        chart.series[2].setData(data);
-    });
-    // Lấy giá trị từ các phần tử HTML
-    // var currentTemp = parseFloat($('#currentTemp').text()); // Chuyển giá trị thành số thập phân
-    // var currentHumi = parseFloat($('#currentHumi').text()); // Chuyển giá trị thành số thập phân
-    // var currentLight = parseFloat($('#currentLight').text()); // Chuyển giá trị thành số thập phân
-
-    // // Cập nhật dữ liệu của biểu đồ
-    // chart.series[0].addPoint([xAxis, currentHumi]); // xValue là thời gian hoặc vị trí dữ liệu của độ ẩm
-    // chart.series[1].addPoint([xAxis, currentTemp]); // xValue là thời gian hoặc vị trí dữ liệu của nhiệt độ
-    // chart.series[2].addPoint([xAxis, currentLight]);
-
-    $('.warningsubmit').on('click', function (e) {
-        e.preventDefault();  // Ngăn chặn gửi form mặc định
-
-        var dataType = $(this).data('type');  // Lấy loại dữ liệu từ data-type
-
-        var value = $('#' + dataType).val();  // Lấy giá trị từ trường input
-
-        $.ajax({
-            url: '/home/livingroom/warning',
-            type: 'POST',
-            data: { dataType: dataType, [dataType]: value },  // Tạo đối tượng dữ liệu với key dựa vào dataType
-            success: function (response) {
-                console.log(response);
-            },
-            error: function (xhr) {
-                console.log(xhr);
-            }
-        });
-    });
-    function updateData() {
-        $.ajax({
-            url: '/home/livingroom/data',  // Route mới để lấy dữ liệu từ máy chủ Flask
-            method: 'GET',
-            success: function (response) {
-                // console.log(response);
-                // Cập nhật dữ liệu trên trang web với dữ liệu mới
-                $('#currentTemp').text(response.Response.Temperature);
-                $('#currentHumi').text(response.Response.Humidity);
-                $('#currentLight').text(response.Response.Light);
-            }
-        });
-    }
-
-    // $(document).ready(function () {
-    //     updateData();
-    //     setInterval(updateData, 10000);  // Cập nhật dữ liệu sau mỗi 5 giây
-    // });
-</script>
+<script src="/static/js/livingroom.js"></script>

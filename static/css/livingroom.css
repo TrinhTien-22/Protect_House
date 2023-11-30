@@ -1,14 +1,78 @@
+* {
+    /* CSS áp dụng cho tất cả các phần tử */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* Thêm các thuộc tính CSS khác tùy thuộc vào nhu cầu của bạn */
+  }
 body.dark-mode {
-    margin-left:  5px;
-    margin-right: 5px;
+
     background-color: #333;
     color: #fff;
 }
 body.light-mode {
-    margin-left:  5px;
-    margin-right: 5px;
     background-color: #fff;
     color: #333;
+}
+body{
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+}
+.display_array{
+    display: flex;
+    margin-left: 5px;
+}
+.hidden{
+    display: none;
+}
+#displayValues{
+    display: flex;
+    padding: 30px 0 30px 0;
+}
+.content_warning button{
+    width: 150px;
+    padding: 10px;
+    background-color: #ff5900;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+.content_warning button:hover{
+    
+    outline: 1px solid #ff5900;
+    color: #ff5900;
+    background-color: white;
+}
+.content_warning button:focus{
+    outline: none;
+}
+.box-img{
+    margin-left: 50px;
+}
+.content_warning{
+    text-align: center;
+}
+.icon_arrow{
+    display: flex;
+}
+.display_array p{
+    text-align: center;
+    padding: 10px 15px 10px 15px;
+    margin: 5px;
+    border: 2px solid #797878;
+    box-shadow: 3px 3px 6px #333;
+    width: 47px;
+    height: 41px;
+    white-space: nowrap;
+  overflow: hidden;
+  
+  border-radius: 5px;
+}
+.control_room{
+    width: 25%;
 }
 .title {
     margin-left:20px;
@@ -18,11 +82,111 @@ body.light-mode {
     padding-top: 13px;
     padding-bottom: 10px;
 }
-
+.note_infor{
+    padding: 10px 0 50px 0;
+}
+.icon{
+    display: flex;
+}
+.text_dht11{
+    text-align: center;
+    font-size: 30px;
+    font-weight: 600;
+    width: 230px;
+}
+.content_living{
+    display: flex;
+}
+.hardward{
+    margin: 0 10px 10px 0;
+    box-shadow: 5px 5px 10px #333;
+    width: 25%;
+    border-radius: 10px;
+}
 .form-container {
     text-align: end;
 }
+body.dark-mode .line_infor{
+    background-color: white;
+}
+body.dark-mode .hardward{
+    box-shadow: 5px 5px 10px white;
+}
+body.dark-mode .line_char{
+    background-color: white;
+}
+body.dark-mode .display_array p{
+    box-shadow: 3px 3px 6px white;
+}
+.line_infor{
+    width: 70%;
+    height: 5px;
+    background-color: #333;
+    margin-left: 15%;
+    border-radius: 40%;
+}
 
+.dht11{
+    padding: 20px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+.text_infor {
+    font-size: 20px;
+    font-weight: 800;
+}
+.main_infor{
+    display: flex;
+    margin-left: 120px;
+}
+.line_char{
+    margin-left: 5px;
+    margin-top: 30px;
+    width: 6px;
+    height: 450px;
+    background-color: #333;
+    border-radius: 40%;
+}
+.headhard{
+    display: flex;
+    margin-top: 5px;
+}
+.headhard2{
+    display: flex;
+}
+.headhard2 h4{
+    font-size: 25px;
+    font-weight: 600;
+    text-align: center;
+    padding: 0 20px 0 20px;
+}
+.headhard h4{
+    font-size: 25px;
+    font-weight: 600;
+    text-align: center;
+    padding: 0 20px 0 20px;
+}
+.iconhead{
+    margin-top: 7px;
+}
+.line{
+    width: 1px;
+    height: 30px;
+    background-color: #333;
+    margin: 0 10px 0 10px;
+}
+.text_warning{
+    display: flex;
+    margin-left: 80px;
+}
+.icon_arrow{
+    margin: 18px 0 0 6px ;
+}
+
+#container{
+    border-radius: 10px;
+}
 .form {    
     float: right;
     margin-left: 13px;
@@ -38,11 +202,12 @@ body.light-mode {
 }
 .infor{
     position: absolute;
-    padding: 80px;
+    padding: 80px; 
     background-color: white;
     top: 100px;
-    left: 500px;
+    left: 400px;
     z-index: 6;
+    border-radius: 20px;
 }
 .content_close{
     z-index: 2;
@@ -51,6 +216,27 @@ body.light-mode {
     height: 100%;
     position: fixed;
     top: 0;
+}
+.bedroom-link{
+    width: 150px;
+    padding: 8px;
+    font-size: 16px;
+    margin: 150px 0 0 10px;
+    font-weight: 600;
+    background-color: #ff5900;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+}
+.bedroom-link:hover{
+    background-color: white;
+    color: #ff5900;
+    outline: 1px solid #ff5900;
+
+}
+.bedroom-link:focus{
+    background-color: white;
+    outline: 1px solid #ff5900;
 }
 .close_infor{
     position: fixed;
@@ -62,7 +248,7 @@ body.light-mode {
 }
 .close_infor img{
     margin-top: 50px;
-    margin-left: 650px;
+    margin-left: 600px;
 }
 
 .temperature{
@@ -130,7 +316,9 @@ body.light-mode {
     border-left: 1px solid white;
     border-radius: 10px;
 }
-
+.chartdht11{
+    margin-top: 30px;
+}
 .left-block {
     width: 100%;       
     border: 1px solid white;

@@ -50,7 +50,7 @@ $(document).ready(function () {
         var html = "";
         $.each(response.response, function (key, val) {
           html += `
-                    <div class=" informember col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women"
+                    <div class=" informember col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item ${val[4]}"
                         style="  margin-left:10px; max-width:290px ; border-radius: 10px;">
                     <div class="block2" >
                     <div class="block2-pic hov-img0" style="border-radius: 10px;">
@@ -94,44 +94,6 @@ $(document).ready(function () {
     });
   }
 
-  // $(document).on("click", '.editmember', function () {
-
-  //     $("#informationUser").removeClass("hidden");
-  //     var id = $(this).data('id');
-  //     $('#Formlogin').attr('data-id', id);
-  //     $.ajax({
-  //         url: "/member/update/" + id,
-  //         type: 'GET',
-  //         success: function (respone) {
-
-  //             $('#avataInformation').html(`<img style="width : 200px" src="/static/img/avata/${respone.respone[2]}" alt="">`);
-  //             $('#numberid').val(respone.respone[0]);
-  //             $('#name').val(respone.respone[1]);
-  //             $('#member').val(respone.respone[3]);
-  //         },
-  //         error: function (xhr) {
-  //             console.log(xhr);
-  //         }
-  //     })
-  // });
-  // $(document).on('submit', '#Formlogin', function (e) {
-  //     e.preventDefault();
-  //     var id = $(this).data('id');
-  //     var data = $(this).serialize();
-  //     console.log(data);
-  //     $.ajax({
-  //         url: "/member/update/finish/" + id,
-  //         type: "POST",
-  //         data: data,
-  //         success: function (respone) {
-  //             $("#loginForm").addClass("hidden");
-  //             memberdata();
-  //         },
-  //         error: function (xhr) {
-  //             console.log(xhr);
-  //         }
-  //     });
-  // });
   $(document).on("submit", "#Adminlogin", function (e) {
     e.preventDefault();
     $.ajax({
@@ -153,4 +115,80 @@ $(document).ready(function () {
       },
     });
   });
+  setTimeout(function () {
+    var $topeContainer = $(".isotope-grid");
+    var $filter = $(".filter-tope-group");
+
+    $filter.each(function () {
+      $filter.on("click", "button", function () {
+        var filterValue = $(this).attr("data-filter");
+        $topeContainer.isotope({ filter: filterValue });
+      });
+    });
+
+    $(window).on("load", function () {
+      var $grid = $topeContainer.each(function () {
+        $(this).isotope({
+          itemSelector: ".isotope-item",
+          layoutMode: "fitRows",
+          percentPosition: true,
+          animationEngine: "best-available",
+          masonry: {
+            columnWidth: ".isotope-item",
+          },
+        });
+      });
+    });
+
+    var isotopeButton = $(".filter-tope-group button");
+
+    $(isotopeButton).each(function () {
+      $(this).on("click", function () {
+        for (var i = 0; i < isotopeButton.length; i++) {
+          $(isotopeButton[i]).removeClass("how-active1");
+        }
+
+        $(this).addClass("how-active1");
+      });
+    });
+  }, 0);
 });
+// function isotopeFilter() {
+//   var $topeContainer = $(".isotope-grid");
+//   var $filter = $(".filter-tope-group");
+
+//   // filter items on button click
+//   $filter.each(function () {
+//     $filter.on("click", "button", function () {
+//       var filterValue = $(this).attr("data-filter");
+//       $topeContainer.isotope({ filter: filterValue });
+//     });
+//   });
+
+//   // init Isotope
+//   $(window).on("load", function () {
+//     var $grid = $topeContainer.each(function () {
+//       $(this).isotope({
+//         itemSelector: ".isotope-item",
+//         layoutMode: "fitRows",
+//         percentPosition: true,
+//         animationEngine: "best-available",
+//         masonry: {
+//           columnWidth: ".isotope-item",
+//         },
+//       });
+//     });
+//   });
+
+//   var isotopeButton = $(".filter-tope-group button");
+
+//   $(isotopeButton).each(function () {
+//     $(this).on("click", function () {
+//       for (var i = 0; i < isotopeButton.length; i++) {
+//         $(isotopeButton[i]).removeClass("how-active1");
+//       }
+
+//       $(this).addClass("how-active1");
+//     });
+//   });
+// }

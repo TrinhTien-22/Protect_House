@@ -8,6 +8,21 @@ body{
     margin-left: 50px;
 }
 .addmember h3{
+    font-size: 20px;
+    font-weight: 600;
+    font-style: italic;
+}
+.button_addperson a{
+    background-color: #ff5900;
+    border: none;
+}
+.button_addperson a:hover{
+    background-color: white;
+    font-weight: 600;
+    color: #ff5900;
+    box-shadow: 5px 5px 10px #333;
+}
+.addmember h3{
     margin-left: 30px;
 }
 .space_search{
@@ -107,6 +122,7 @@ body{
     width: 100%;
     border: none;
 }
+
 .button_search{
     background-color: #ff5900;
     border-radius: 5px;

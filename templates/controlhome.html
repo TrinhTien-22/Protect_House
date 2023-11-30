@@ -43,6 +43,28 @@
 </body>
 
 </html>
+<script>
+
+    $(document).ready(function () {
+        $.ajax({
+            url: '/controlhome/get',
+            type: 'GET',
+            success: function (response) {
+                console.log(response);
+                var html = "";
+                $.each(response, function (key, val) {
+                    html += `<td>${val[0]}</td>
+                        <td>${val[1]}</td>
+                        <td>${val[2]}</td>`
+                })
+                $('#scandata').append(html);
+            },
+            error: function (xhr) {
+                console.log(xhr);
+            }
+        })
+    })
+</script>
 <!-- <script>
     const video = document.getElementById('video');
     const canvas = document.getElementById('canvas');

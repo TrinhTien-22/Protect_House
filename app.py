@@ -37,7 +37,8 @@ mydb = mysql.connector.connect(
 mycursor = mydb.cursor()
 mqtt_client = mqtt.Client()
 
-mqtt_client.connect("192.168.0.109", 1883)
+# mqtt_client.connect("192.168.0.109", 1883)
+mqtt_client.connect("192.168.0.110", 1883)
 
 mqtt_client.subscribe("livingroom")
 mqtt_client.loop_start()
@@ -100,6 +101,7 @@ def generate_dataset(nbr):
  
  
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Train Classifier >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 @app.route('/train_classifier/<nbr>')
 def train_classifier(nbr): 
     dataset_dir = r'C:\Users\Admin\Documents\live_face_recognition\dataset'
@@ -109,7 +111,7 @@ def train_classifier(nbr):
     ids = []
  
     for image in path:
-        img = Image.open(image).convert('L');
+        img = Image.open(image).convert('L')
         imageNp = np.array(img, 'uint8')
         id = int(os.path.split(image)[1].split(".")[1])
  
@@ -121,7 +123,6 @@ def train_classifier(nbr):
     clf = cv2.face.LBPHFaceRecognizer_create()
     clf.train(faces, ids)
     clf.write('classifier.xml')
- 
  
     return redirect('/')
  
@@ -163,7 +164,9 @@ def face_recognition():  # generate frame by frame from camera
  
                 cv2.putText(img, str(int(n))+' %', (x + 20, y + h + 28), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (153, 255, 255), 2, cv2.LINE_AA)
  
-                cv2.rectangle(img, (x, y + h + 40), (x + w, y + h + 50), color, 2)
+                cv2.rectangle(img, (x, y + h + 40), (x + w, y + h +50), color, 2)
+                # cv2.rectangle(img, (x, y ), (x, y), color, 2)
+                # cv2.rectangle(img, (x, y), (w, h ), (153, 255, 255), cv2.FILLED)
                 cv2.rectangle(img, (x, y + h + 40), (x + int(w_filled), y + h + 50), (153, 255, 255), cv2.FILLED)
  
                 mycursor.execute("select a.img_person, b.prs_name, b.prs_skill "
@@ -208,8 +211,8 @@ def face_recognition():  # generate frame by frame from camera
                 else:
                     cv2.putText(img, ' ', (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2,cv2.LINE_AA)
  
-                if pause_cnt > 80:
-                    justscanned = False
+            if pause_cnt > 80:
+                justscanned = False
  
             coords = [x, y, w, h]   
      
@@ -219,7 +222,6 @@ def face_recognition():  # generate frame by frame from camera
         coords = draw_boundary(img, faceCascade, 1.1, 10, (255, 255, 0), "Face", clf)
         return img
 
- 
  
     faceCascade = cv2.CascadeClassifier(r'C:\Users\Admin\Documents\live_face_recognition\resources\haarcascade_frontalface_default.xml')
     clf = cv2.face.LBPHFaceRecognizer_create()
@@ -354,6 +356,25 @@ def deletemember(id):
     mydb.commit()
     
     delete_user_images(id)
+    dataset_dir = r'C:\Users\Admin\Documents\live_face_recognition\dataset'
+ 
+    path = [os.path.join(dataset_dir, f) for f in os.listdir(dataset_dir)]
+    faces = []
+    ids = []
+ 
+    for image in path:
+        img = Image.open(image).convert('L')
+        imageNp = np.array(img, 'uint8')
+        id = int(os.path.split(image)[1].split(".")[1])
+ 
+        faces.append(imageNp)
+        ids.append(id)
+    ids = np.array(ids)
+ 
+    # Train the classifier and save
+    clf = cv2.face.LBPHFaceRecognizer_create()
+    clf.train(faces, ids)
+    clf.write('classifier.xml')
     return jsonify("ok")
 
 @app.route('/admin')
@@ -655,7 +676,14 @@ def hand_tracking():
     topic = "Trinhtien22"
     # client = mqtt.Client()
     # client.connect(broker)
-
+    value_mapping = {
+    '11111': 'Open Door',
+    '00000': 'Turn off All',
+    '01110': 'Turn on led 3',
+    '01100': 'Turn on led 2',
+    '01000': 'Turn on led 1',
+    '10001': 'Call for rescue',
+    }
     while cap.isOpened():
         success, img = cap.read()
         img = detector.findHands(img)
@@ -691,8 +719,9 @@ def hand_tracking():
             strVal = str(fingerVal[0])+str(fingerVal[1])+str(fingerVal[2])+str(fingerVal[3])+str(fingerVal[4])
 
             if lastData != strVal and time.time() - lastChangeTime >= 3:
-                if strVal == '11111' or  strVal == '00000' or strVal=='01110' or strVal=='01100' or strVal=='01000' or strVal =='10001':
-                    mycursor.execute('INSERT INTO activity (action) VALUES (%s)', (strVal,))
+                if strVal in value_mapping:
+                    custom_str = value_mapping[strVal]
+                    mycursor.execute('INSERT INTO activity (action) VALUES (%s)', (custom_str,))
                     mydb.commit()
                     
                 mqtt_client.publish(topic, strVal)
@@ -701,6 +730,7 @@ def hand_tracking():
                 lastChangeTime = time.time()
 
         frame = cv2.imencode('.jpg', img)[1].tobytes()
+        
         yield (b'--frame\r\n'
             b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
         

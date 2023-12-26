@@ -151,9 +151,11 @@ $(document).ready(function () {
       success: function (respone) {
         $("#informationUser").addClass("hidden");
         memberdata();
+        showSuccessMessage("Update Success !");
       },
       error: function (xhr) {
         console.log(xhr);
+        showErrorMessage("ERROR");
       },
     });
   });
@@ -179,12 +181,40 @@ $(document).ready(function () {
         url: "/admin/deletemember/" + id,
         type: "POST",
         success: function (respone) {
-          console.log(respone);
+          $("#informationUser").addClass("hidden");
+          memberdata();
+          showSuccessMessage("Delete Success !");
         },
         error: function (xhr) {
           console.log(xhr);
+          showErrorMessage("ERROR");
         },
       });
     });
   });
+  function showSuccessMessage(message) {
+    Swal.fire({
+      icon: "success",
+      title: "Thành công!",
+      text: message,
+      customClass: {
+        popup: "small-popup",
+        title: "small-title",
+        content: "small-content",
+      },
+    });
+  }
+
+  function showErrorMessage(message) {
+    Swal.fire({
+      icon: "error",
+      title: "Lỗi!",
+      text: message,
+      customClass: {
+        popup: "small-popup",
+        title: "small-title",
+        content: "small-content",
+      },
+    });
+  }
 });

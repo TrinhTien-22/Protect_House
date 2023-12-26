@@ -53,9 +53,11 @@
                 console.log(response);
                 var html = "";
                 $.each(response, function (key, val) {
-                    html += `<td>${val[0]}</td>
+                    html += `<tr>
+                        <td>${val[0]}</td>
                         <td>${val[1]}</td>
-                        <td>${val[2]}</td>`
+                        <td>${val[2]}</td>
+                        </tr>`
                 })
                 $('#scandata').append(html);
             },
